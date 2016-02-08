@@ -872,6 +872,14 @@ confirm_site_creation() {
 			unset continue_create
 		fi
 	done
+	
+	curl -s https://cldup.com/QaRHRgXjgw.mp3 > /tmp/vv-audio.mp3 &
+	while [ ! -s /tmp/vv-audio.mp3 ];
+	do
+		sleep 1;
+	done
+	sleep 1;
+	afplay /tmp/vv-audio.mp3 &
 
 	success "New VVV setup starting for site '$site'"
 	cd "$path" || error "Could not change directory."
@@ -1111,6 +1119,7 @@ creation_success_message() {
 	echo "URL:       $domain"
 	echo "Username:  $username"
 	echo "Password:  $password"
+	killall afplay
 	hook "post_site_creation_finished" "$site" "$domain" "$path"
 }
 
